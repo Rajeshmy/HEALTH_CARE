@@ -61,17 +61,19 @@ const RegisterForm = () => {
     };
 
     const registerUser = async (formData) => {
-        const res = await fetch("http://localhost:5000/api/users/register", {
+        const res = await fetch("http://localhost:5000/api/auth/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData),
         });
-        if (!res.success) throw new Error("User registration failed");
-        return res.json();
+        const data = await res.json()
+        console.log(data, "response of register user")
+        if (!data.success) throw new Error("User registration failed");
+        return data;
     };
 
     const registerDoctor = async (userId, formData) => {
-        const res = await fetch("http://localhost:5000/api/users/registerDoctor", {
+        const res = await fetch("http://localhost:5000/api/auth/registerDoctor", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -80,8 +82,10 @@ const RegisterForm = () => {
                 licenseNumber: formData.license
             }),
         });
-        if (!res.success) throw new Error("Doctor registration failed");
-        return res.json();
+        const data = await res.json()
+        console.log(data, "response of register doctor")
+        if (!data.success) throw new Error("Doctor registration failed");
+        return data;
     };
 
     const handleSubmit = async (e) => {
@@ -94,8 +98,8 @@ const RegisterForm = () => {
                 console.log("✅ Registering user:", formData);
                 const userRes = await registerUser(formData);
 
-                if (formData?.isDoctor && userRes?.email) {
-                    const doctorRes = await registerDoctor(userRes?.email, formData);
+                if (formData?.isDoctor) {
+                    const doctorRes = await registerDoctor(formData.email, formData);
                     console.log("✅ Doctor details saved:", doctorRes);
                 }
 

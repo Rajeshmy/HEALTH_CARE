@@ -10,9 +10,9 @@ const createAppointment = async (req, res) => {
             symptoms,
         });
         await appointment.save();
-        res.status(201).json(appointment);
+        res.status(201).json({ success: true, appointmentDetails: appointment });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ success: false, error: err.message });
     }
 };
 
