@@ -20,6 +20,22 @@ const registerUser = async (req, res) => {
         const user = new User({ name, email, password: hashedPassword, role });
         await user.save();
 
+        // NOTE:- instead of additional fn/api to registerDoctor(line 41)  it can be extended like below  
+
+
+        // const savedUser =  await user.save();
+        // if (role === 'doctor') {
+        //     const { specialization, license } = req.body;
+
+        //    const doctor = new DoctorDetails({
+        //    userId: savedUser._id,
+        //    specialization,
+        //    licenseNumber
+        //     });
+
+        // await doctor.save();
+        // };
+
         res.status(201).json({ success: true, message: 'User registered successfully' });
     } catch (err) {
         res.status(500).json({ success: false, error: err });
@@ -68,7 +84,7 @@ const loginUser = async (req, res) => {
             { expiresIn: '1h' }
         );
 
-        res.status(200).json({ success: true, token, user: { id: user._id, name: user.name, role: user.role } });
+        res.status(200).json({ success: true, token, userDetails: { id: user._id, name: user.name, email, role: user.role } });
     } catch (err) {
         res.status(500).json({ success: false, error: err.message });
     }

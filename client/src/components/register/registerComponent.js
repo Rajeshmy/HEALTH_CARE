@@ -64,7 +64,7 @@ const RegisterForm = () => {
         const res = await fetch("http://localhost:5000/api/auth/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData),
+            body: JSON.stringify({ ...formData, role: formData.isDoctor ? "doctor" : "patient" }),
         });
         const data = await res.json()
         console.log(data, "response of register user")
@@ -95,19 +95,18 @@ const RegisterForm = () => {
 
         if (validate()) {
             try {
-                console.log("✅ Registering user:", formData);
-                const userRes = await registerUser(formData);
+                console.log("Registering user:", formData);
+                await registerUser(formData);
+                setRegistered(true);
 
                 if (formData?.isDoctor) {
-                    const doctorRes = await registerDoctor(formData.email, formData);
-                    console.log("✅ Doctor details saved:", doctorRes);
+                    await registerDoctor(formData.email, formData);
                 }
 
-                setRegistered(true);
                 alert("Registration successful!");
             } catch (err) {
-                console.error("❌ Registration error:", err);
-                alert(err.message || "Registration failed");
+                console.error("Registration error:", err);
+                alert(err.message || err.msg || "Registration failed");
             }
         }
     };
@@ -115,7 +114,7 @@ const RegisterForm = () => {
 
 
     return (
-        <div className="w-[350px] mx-auto mt-10 p-6 border rounded-2xl shadow bg-white">
+        <div className="w-[350px] mx-auto my-10 p-6 border rounded-2xl shadow bg-white">
             <h2 className="text-xl font-semibold text-center mb-4">Register</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
 
@@ -154,6 +153,7 @@ const RegisterForm = () => {
                         value={formData.password}
                         onChange={handleChange}
                         className="w-full px-3 py-2 border rounded-md text-sm focus:ring focus:ring-blue-500"
+                        maxLength={20}
                     />
                     {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
                 </div>
@@ -204,7 +204,7 @@ const RegisterForm = () => {
                 {/* Submit */}
                 <button
                     type="submit"
-                    className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 text-sm transition"
+                    className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 text-sm transition cursor-pointer"
                 >
                     {!registered ? "Register" : "Go to login"}
                 </button>

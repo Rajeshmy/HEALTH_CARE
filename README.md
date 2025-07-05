@@ -98,8 +98,9 @@ A full-stack healthcare portal designed to streamline hospital management proces
 **Base URL:** `/api`
 
 ### 🔐 Auth Routes
-- `POST /api/register` – Patient/Admin registration
-- `POST /api/login` – Secure login (returns JWT)
+- `POST /api/auth/register` – Patient/Admin registration
+- `POST /api/auth/registerDoctor` – if doctor save additional details
+- `POST /api/auth/login` – Secure login (returns JWT)
 - `GET /api/profile` – Get current user profile
 
 ### 📅 Appointment Routes (auth middleware for security)
@@ -128,8 +129,8 @@ MongoDB Atlas (free tier for dev/testing)
 
 
 
-
-
-
 ## 🗂️ Project Structure
+/HEALTH_CARE
+   /client - nextjs
+   /server - node(express)
 
