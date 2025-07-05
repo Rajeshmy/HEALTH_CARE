@@ -35,10 +35,26 @@ A full-stack healthcare portal designed to streamline hospital management proces
 - **Next.js**
 - **Tailwind CSS**
 
+## Depependencies used:-
+
+- **tailwindcss**
+
+
+
+
 ### Backend
 - **Node.js**
 - **Express.js**
 - **MongoDB**
+
+## Depependencies used:-
+
+- **jwt**
+- **cors**
+- **dotenv**
+- **mongoose**
+
+
 
 ### Security & Auth
 - **JWT Authentication**
