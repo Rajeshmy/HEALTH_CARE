@@ -17,7 +17,11 @@ app.use(express.json());
 
 
 app.use('/api/auth', authRoutes);
+
+// protected routes
 app.use('/api/appointments', appointmentRoutes);
+
+
 
 
 app.listen(PORT, () => {

@@ -60,19 +60,55 @@ const RegisterForm = () => {
         return valid;
     };
 
-    const handleSubmit = (e) => {
+    const registerUser = async (formData) => {
+        const res = await fetch("http://localhost:5000/api/users/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData),
+        });
+        if (!res.success) throw new Error("User registration failed");
+        return res.json();
+    };
+
+    const registerDoctor = async (userId, formData) => {
+        const res = await fetch("http://localhost:5000/api/users/registerDoctor", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                userId,
+                specialization: formData.specialization,
+                licenseNumber: formData.license
+            }),
+        });
+        if (!res.success) throw new Error("Doctor registration failed");
+        return res.json();
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (registered) return router.replace("/login");
 
         if (validate()) {
+            try {
+                console.log("✅ Registering user:", formData);
+                const userRes = await registerUser(formData);
 
-            setRegistered(true);
-            console.log('✅ Registering user:', formData);
-            // API call here
-            alert('can call api')
+                if (formData?.isDoctor && userRes?.email) {
+                    const doctorRes = await registerDoctor(userRes?.email, formData);
+                    console.log("✅ Doctor details saved:", doctorRes);
+                }
+
+                setRegistered(true);
+                alert("Registration successful!");
+            } catch (err) {
+                console.error("❌ Registration error:", err);
+                alert(err.message || "Registration failed");
+            }
         }
     };
+
+
 
     return (
         <div className="w-[350px] mx-auto mt-10 p-6 border rounded-2xl shadow bg-white">
