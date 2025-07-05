@@ -28,39 +28,108 @@ A full-stack healthcare portal designed to streamline hospital management proces
 
 ---
 
+
+
 ## 🧩 Tech Stack
 
 ### Frontend
 - **React.js**
 - **Next.js**
 - **Tailwind CSS**
-
-## Depependencies used:-
-
-- **tailwindcss**
-
-
-
+- **Redux Toolkit** – For global state management (auth, appointments, etc.)
 
 ### Backend
 - **Node.js**
 - **Express.js**
-- **MongoDB**
-
-## Depependencies used:-
-
-- **jwt**
-- **cors**
-- **dotenv**
-- **mongoose**
-
-
-
-### Security & Auth
-- **JWT Authentication**
-- **Role-based Access Control (RBAC)**
+- **MongoDB Atlas** (Cloud Database)
+- **Mongoose** – ODM for MongoDB
 
 ---
+
+## 🛠️ Dependencies Used
+
+### Frontend
+- `react`
+- `next`
+- `tailwindcss`
+- `@reduxjs/toolkit`
+- `react-redux`
+- `axios`
+
+### Backend
+- `express`
+- `mongoose`
+- `cors`
+- `dotenv`
+- `jsonwebtoken`
+- `bcryptjs`
+
+---
+
+## 🔐 Security & Authentication
+
+- **JWT (JSON Web Tokens)** for user login sessions
+- **bcryptjs** for secure password hashing
+- **Role-Based Access Control (RBAC)** for managing patient vs admin permissions
+- Sensitive credentials are stored in the `.env` file
+- **Frontend-level validation & encryption** (client-side form validations and HTTPS)
+
+---
+
+## 🗃️ Database (MongoDB Atlas with Mongoose)
+
+### ✅ Collections (Tables Equivalent)
+
+#### `users`
+- `name`, `email`, `password`, `role` (`patient` or `admin`)
+
+#### `appointments`
+- `patientId`, `doctorId`, `date`, `status`, `symptoms`
+
+#### `health_articles` *(optional)*
+- `title`, `content`, `createdAt`
+
+> Schema enforcement via **Mongoose models**
+
+---
+
+## 🌐 API – RESTful Structure
+
+**Base URL:** `/api`
+
+### 🔐 Auth Routes
+- `POST /api/register` – Patient/Admin registration
+- `POST /api/login` – Secure login (returns JWT)
+- `GET /api/profile` – Get current user profile
+
+### 📅 Appointment Routes (auth middleware for security)
+- `POST /api/appointments` – Book appointment
+- `GET /api/appointments` – View appointments (filtered by role)
+- `PUT /api/appointments/:id` – Update status (admin only)
+
+### 🌐 Public Routes 
+- `GET /api/health-info` – Public health articles
+
+
+---
+
+## 🚀 Deployment
+
+- **Frontend:** 
+
+ Netlify
+- **Backend API:**
+
+ Heroku 
+
+- **Database:** 
+
+MongoDB Atlas (free tier for dev/testing)
+
+
+
+
+
 
 ## 🗂️ Project Structure
 
