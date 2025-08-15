@@ -42,7 +42,7 @@ const LoginForm = () => {
 
         console.log(data, "response of login");
 
-        if (!data.success) throw new Error("Login failed");
+        if (!data.success) throw new Error(data.message || "login failed");
 
         return data;
     };
@@ -79,7 +79,7 @@ const LoginForm = () => {
                 router.replace('/dashboard');
             } catch (err) {
                 console.error("login failed:", err);
-                alert(err.message || err.msg || "Login failed");
+                alert(err);
             }
         }
     };

@@ -63,7 +63,7 @@ const registerDoctor = async (req, res) => {
 
         res.status(201).json({ success: true, message: "Doctor registered", doctor });
     } catch (error) {
-        console.error("❌ Doctor Register Error:", error);
+        console.error("Doctor Register Error:", error);
         res.status(500).json({ success: false, message: "Internal server error" });
     }
 }

@@ -18,10 +18,20 @@ const createAppointment = async (req, res) => {
 
 const getAppointments = async (req, res) => {
     try {
-        const filter = req.user.role === 'admin'
-            ? {}
-            : { patientId: req.user.id };
-        const appointments = await Appointment.find(filter).populate('doctorId', 'name');
+        let populateFields = [];
+        let filters = {};
+
+        if (req.user.role === 'admin') {
+            populateFields.push({ path: 'doctorId', select: 'name email' }, { path: 'patientId', select: 'name email' })
+        } else if (req.user.role === 'doctor') {
+            populateFields.push({ path: 'patientId', select: "name email" })
+            filters = { doctorId: req.user.id };
+        } else {
+            populateFields.push({ path: 'doctorId', select: 'name email' });
+            filters = { patientId: req.user.id };
+        }
+
+        const appointments = await Appointment.find(filters).populate(populateFields);
         res.status(200).json(appointments);
     } catch (err) {
         res.status(500).json({ error: err.message });

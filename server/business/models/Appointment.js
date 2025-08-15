@@ -19,8 +19,7 @@ const appointmentSchema = new Schema({
     symptoms: {
         type: String,
     },
-    age: Number,
-    gender: String,
+
     contact: String,
     address: String,
     medicalHistory: [String],
